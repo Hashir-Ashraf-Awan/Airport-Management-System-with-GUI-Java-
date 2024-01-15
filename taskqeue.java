@@ -1,20 +1,37 @@
+package task;
+
 import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+class TaskQueue  {
 
-public class TaskQueue {
+   protected PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
 
-   protected ArrayList<Task> orderedTasks;
+   public void comparePriority(ArrayList<Task> tasks) {
+      for (int i = 1; i < 10; i++) {
+         if (tasks.get(i).getPriority() > tasks.get(0).getPriority()) {
+            System.out.println(tasks.get(i) + " has higher priority than " + tasks.get(0));
+            // Swap tasks[i] and tasks[0] using a temporary variable
+            Task temp = tasks.get(i);
+            tasks.set(i, tasks.get(0));
+            tasks.set(0, temp);
+         } else if (tasks.get(i).getPriority() < tasks.get(0).getPriority()) {
+            System.out.println(tasks.get(0) + " has higher priority than " + tasks.get(i));
+            // Swap tasks[i] and tasks[0] using a temporary variable
+            Task temp = tasks.get(i);
+            tasks.set(i, tasks.get(0));
+            tasks.set(0, temp);
 
-   public TaskQueue() {
-      // Initialize the ArrayList
-      orderedTasks = new ArrayList<>();
+         } else {
+            System.out.println("Both tasks have the same priority.");
+         }
+      }
    }
 
-   public void taskInOrder(PriorityQueue q, TaskEngine e) {
-      // Assuming that q.orderedTask(e) returns a List<Task>
-      orderedTasks = new ArrayList<>(q.orderedTasks(e));
-   }
-
-   public ArrayList<Task> getOrderedTasks() {
-      return orderedTasks;
+   public void printPriorityQueue() {
+      System.out.println("Tasks in Priority Queue:");
+      while (!priorityQueue.isEmpty()) {
+         System.out.println(priorityQueue.poll());
+      }
    }
 }

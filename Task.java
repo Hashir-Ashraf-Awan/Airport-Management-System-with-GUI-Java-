@@ -1,29 +1,27 @@
+// Task.java
 package task;
 
 import java.util.Scanner;
 
-class Task {
-    protected boolean priority;
-    protected int timeMark;
+public class Task {
+    private String taskName;
+    private int priority;
 
-
-Task(){
-        System.out.println("Task created");
-}
-public void set(){
-        System.out.println("Enter time for task: " + timeMark);
-    Scanner s=new Scanner(System.in);
-    timeMark=s.nextInt();
-    System.out.println("Enter Priority for task: " );
-    priority=s.nextBoolean();
-
-}
-    public Integer getPriority() {
-        return priority ? 1 : 0; // Assuming true has higher priority than false
+    public void CreateTask(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter task name");
+        taskName =scanner.nextLine();
+        this.taskName = taskName;
+        System.out.println("Enter priority for Task " + taskName + " (1-10): ");
+        priority = scanner.nextInt();// Set priority during task creation
     }
 
 
-    public int getTimeMark() {
-        return timeMark;
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 }
