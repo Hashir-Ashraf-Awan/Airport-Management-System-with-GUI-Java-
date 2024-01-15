@@ -1,55 +1,94 @@
 package task;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 class AirportGroundNetwork {
-    private List<String> taxiways;
-    private List<String> gates;
-    private List<String> runways;
+
+    private Map<String, LinkState> runwayStates;
+
+    private Map<String,LinkState> gatestates;
+    private Map<String,LinkState>taxiwaystates;
+    private Map<String,Integer> LinkOccupancy;
 
     public AirportGroundNetwork() {
-        taxiways = new ArrayList<>();
-        gates = new ArrayList<>();
-        runways = new ArrayList<>();
 
-
-        taxiways.add("Taxiway A");
-        taxiways.add("Taxiway B");
-        taxiways.add("Taxiway C");
-        taxiways.add("Taxiway D");
-
-        gates.add("Gate 1");
-        gates.add("Gate 2");
-        gates.add("Gate 3");
-        gates.add("Gate 4");
-
-        runways.add("Runway 1");
-        runways.add("Runway 2");
-        runways.add("Runway 3");
-        runways.add("Runway 4");
+        this.runwayStates=new HashMap<>();
+        this.taxiwaystates=new HashMap<>();
 
     }
 
-    public String getAvailableTaxiway() {
-        for (String taxiway : taxiways) {
-            return taxiway;
+    // Enum to represent the states of a link (runway, taxiway, or gate)
+    private enum LinkState {
+        OPEN_AVAILABLE, OPEN_OCCUPIED,CLOSED
+    }
+
+    // Method to update link state when it is opened
+    public void openLink(String linkName) {
+        if (Objects.equals(linkName, "Gate")) {
+            gatestates.put(linkName, LinkState.OPEN_AVAILABLE);
         }
-        return null;
+        if (Objects.equals(linkName, "Taxiway")){
+            taxiwaystates.put(linkName, LinkState.OPEN_AVAILABLE);}
+        if (Objects.equals(linkName, "Runway")){
+            runwayStates.put(linkName, LinkState.OPEN_AVAILABLE);}
+
+        System.out.println(linkName + " is now open and available.");
     }
 
-    public String getAvailableGate() {
-        for (int i = 0; i < gates.size(); i++) {
-            String gate = gates.get(i);
-            return gate;
+    // Method to update link state when it is occupied
+    public void occupyLink(String linkName) {
+        if (Objects.equals(linkName, "Gate")) {
+            gatestates.put(linkName, LinkState.OPEN_OCCUPIED);
         }
-        return null;
+        if (Objects.equals(linkName, "Taxiway")){
+            taxiwaystates.put(linkName, LinkState.OPEN_OCCUPIED);}
+        if (Objects.equals(linkName, "Runway")){
+            runwayStates.put(linkName, LinkState.OPEN_OCCUPIED);}
+
     }
 
-    public String getAvailableRunway() {
-        for (String runway : runways) {
-            return runway;
+    // Method to update link state when it is closed
+    public void closeLink(String linkName) {
+        if (Objects.equals(linkName, "Gate")) {
+            gatestates.put(linkName, LinkState.CLOSED);
         }
-        return null;
+        if (Objects.equals(linkName, "Taxiway")){
+            taxiwaystates.put(linkName, LinkState.CLOSED);}
+        if (Objects.equals(linkName, "Runway")){
+            runwayStates.put(linkName, LinkState.CLOSED);}
     }
-}
+
+    // Method to update link occupancy when an airplane enters a link
+    public void airplaneEntersLink(String linkName, int airplaneID) {
+
+        if (Objects.equals(linkName, "Gate")) {
+            gatestates.put(linkName, LinkState.OPEN_OCCUPIED);
+            LinkOccupancy.put(linkName, airplaneID);
+        }
+        if (Objects.equals(linkName, "Taxiway")) {
+            taxiwaystates.put(linkName, LinkState.OPEN_OCCUPIED);
+            LinkOccupancy.put(linkName, airplaneID);
+        }
+        if (Objects.equals(linkName, "Runway")) {
+            runwayStates.put(linkName, LinkState.OPEN_OCCUPIED);
+            LinkOccupancy.put(linkName, airplaneID);
+        }
+    }
+
+
+    // Method to update link occupancy when an airplane exits a link
+    public void airplaneExitsLink(String linkName, int airplaneID) {
+        if (Objects.equals(linkName, "Gate")) {
+            gatestates.put(linkName, LinkState.OPEN_AVAILABLE);
+            LinkOccupancy.remove(linkName, airplaneID);
+        }
+        if (Objects.equals(linkName, "Taxiway")) {
+            taxiwaystates.put(linkName, LinkState.OPEN_AVAILABLE);
+            LinkOccupancy.remove(linkName, airplaneID);
+        }
+        if (Objects.equals(linkName, "Runway")) {
+            runwayStates.put(linkName, LinkState.OPEN_AVAILABLE);
+            LinkOccupancy.remove(linkName, airplaneID);
+            }
+        }
+    }
