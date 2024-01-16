@@ -5,20 +5,6 @@ import java.time.Instant;
  class MAINProgram {
     public static void main(String[] args){
 
-
-//        GlobalClock g=new GlobalClock(Instant.now());
-//   //     g.start();
-//     //   g.setShouldDisplay(false);
-//
-//
-//TaskEngine t=new TaskEngine();
-//Task t1=new Task();
-//Task t2=new Task();
-//t.addTask(t1);
-//t.addTask(t2);
-////t.addTask(t2);
-//t.prioritizeTasks();
-//t.printTask();
         Airplane airplane=new Airplane(1,"Lahore","Karachi", Airplane.AirplaneState.PARKED_AT_GATE);
 
 
@@ -35,9 +21,14 @@ import java.time.Instant;
                 airplane.MovingAirplane(2);
                 airplane.HoldingAirplane(2);
                 airplane.ParkingAirplane(2);
-        Task Landing=new Task();
+        Task t1=new Task();
+        Task t2=new Task();
         TaskEngine engine=new TaskEngine();
-        engine.addTask(Landing);
+        engine.addTask(t1);
+        engine.addTask(t2);
+        engine.prioritizeTasks();
+
+        engine.dispatchTasks();
             }
         }
 
