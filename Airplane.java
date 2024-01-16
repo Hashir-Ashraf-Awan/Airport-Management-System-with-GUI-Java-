@@ -5,35 +5,120 @@ import java.util.*;
 
 import java.time.Instant;
 
+import static task.AirplaneDestinationSystem.calculateShortestPathAndCost;
+
 
 class Airplane {
-        private int id;
 
-        public Airplane(int id) {
-            this.id = id;
-        }
+    public enum AirplaneState {
+        FINAL_APPROACH, TOUCH_DOWN, DECELERATING_ON_RUNWAY, NETWORK_TAXIING, HOLDING, PARKED_AT_GATE, TAXIING_ON_GROUND, TAKING_OFF, MOVING_IN_TERMINAL, LEAVING_TERMINAL
+    }
 
-        public int getId() {
-            return id;
-        }
+    private int id;
+    private int orientation;
+    private int destination;
+    private int from;
+    private int to;
+    private int totalCost;
+    private int reachDestination;
+    private String path;
+    private Instant start;
+    private Instant end;
+    private AirplaneState currentState;
 
 
-        public void requestPermission(AirTrafficController controller, AirportGroundNetwork groundNetwork) {
-            controller.requestPermission();
-            String taxiway = groundNetwork.getAvailableTaxiway();
-            String gate = groundNetwork.getAvailableGate();
-            String runway = groundNetwork.getAvailableRunway();
+    public Airplane(int id) {
+        this.id = id;
+    }
 
-            if (taxiway != null && gate != null && runway != null) {
-                System.out.println("Airplane " + id + " is taxiing on " + taxiway + " and heading to " + gate + " for departure on " + runway);
+    public int getId() {
+        return id;
+    }
 
-            } else if (taxiway == null) {
-                System.out.println("Taxiway occupied/ Closed by AirTraffic Controller");
-            } else if (gate == null) {
-                System.out.println("Gate closed by AirTraffic Controller");
-            }
+
+
+    public AirplaneState getCurrentState() {
+        return currentState;
+    }
+
+
+//    public void requestPermission(AirTrafficController controller, AirportGroundNetwork groundNetwork) {
+//        controller.requestPermission();
+//        String taxiway = groundNetwork.getAvailableTaxiway();
+//        String gate = groundNetwork.getAvailableGate();
+//        String runway = groundNetwork.getAvailableRunway();
+//
+//        if (taxiway != null && gate != null && runway != null) {
+//            System.out.println("Airplane " + id + " is taxiing on " + taxiway + " and heading to " + gate + " for departure on " + runway);
+//
+//        } else if (taxiway == null) {
+//            System.out.println("Taxiway occupied/ Closed by AirTraffic Controller");
+//        } else if (gate == null) {
+//            System.out.println("Gate closed by AirTraffic Controller");
+//        }
+//    }
+
+    public void transitionToState(AirplaneState newState) {
+        System.out.println("Transitioning from " + currentState + " to " + newState);
+        currentState = newState;
+    }
+
+    public void ShortestPath() {
+        System.out.println("Enter your Current Location");
+        start=Instant.now();
+
+        Scanner scanner = new Scanner(System.in);
+        String currentCity = scanner.nextLine();
+        System.out.println("Enter your Destination");
+        String destinationCity = scanner.nextLine();
+
+        Map<String, Object> result = calculateShortestPathAndCost(currentCity, destinationCity);
+
+        if (result != null) {
+            totalCost = (int) result.get("ShortestDistance");
+            List<String> path = (List<String>) result.get("ShortestPath");
+
+            System.out.println("Shortest Distance: " + totalCost);
+            System.out.println("Cost of Travel Rs."+totalCost*50+"/");
+            System.out.println("Shortest Path: " + String.join(" -> ", path));
+        } else {
+            System.out.println("Error ");
         }
     }
+
+
+
+    public static void main(String[] args) {
+        // Create an instance of the Airplane class
+        Airplane airplane = new Airplane(3);
+
+        // Simulate the airplane's movement through different states
+        airplane.transitionToState(AirplaneState.TAXIING_ON_GROUND);
+        airplane.transitionToState(AirplaneState.HOLDING);
+        airplane.transitionToState(AirplaneState.TAKING_OFF);
+        // ... (simulate other states as needed)
+
+        // Get the current state of the airplane
+        AirplaneState currentState = airplane.getCurrentState();
+        System.out.println("Current state: " + currentState);
+        airplane.ShortestPath();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //import java.util.Scanner;
