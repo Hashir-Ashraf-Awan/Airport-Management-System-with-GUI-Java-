@@ -1,13 +1,16 @@
 package task;
-
 import java.util.Scanner;
 
-class Task {
+ class Task {
     private String taskName;
     private int priority;
     private String primaryLabel;
     private String secondaryLabel;
     private int a;
+    private Airplane path;
+     private AirTrafficController permiss;
+     private AirportGroundNetwork k;
+
 
     public void createTask() {
         Scanner scanner = new Scanner(System.in);
@@ -26,16 +29,27 @@ class Task {
         return priority;
     }
 
-    public void landingTask(int airplaneID, String runway, String gate) {
-        // Add logic for landing task
-    }
+    public void landingTask() {
+    permiss.requestPermission();
+    path.setid();
+     permiss.getId();
+     k.occupyRunway("runway 1");
+     k.occupyGate("occupy gate 1");
 
-    public void enteringTask(int airplaneID, String currentLink, String nextLink) {
-        // Add logic for entering task
     }
+public void enteringtask()
+{
+    k.openGate("gate 1");
+    k.closeRunway("Runway 1");
 
-    public void exitingTask(int airplaneID, String currentLink, String nextLink) {
-        // Add logic for exiting task
+}
+
+
+    public void exitingTask(  )
+    {
+       k.closeGate("GATE 1");;
+       k.openRunway("Runway 1");
+
     }
 
     public void createTaskIdentifier(int airplaneID) {
@@ -47,15 +61,25 @@ class Task {
         if (a == 0) {
             System.out.println("Enter the primary label ");
             primaryLabel = b.next();
+            path.ShortestPath();
+            landingTask();
+            enteringtask();
+            exitingTask();
         }
 
         if (a == 1) {
             System.out.println("Enter the secondary label");
             secondaryLabel = b.next();
+          path.MovingAirplane(5345);
+          path.ParkingAirplane(5345);
+          path.HoldingAirplane(5345);
+
+
+
         }
     }
 
-    public String getPrimaryLabel() {
+     public String getPrimaryLabel() {
         return primaryLabel;
     }
 
