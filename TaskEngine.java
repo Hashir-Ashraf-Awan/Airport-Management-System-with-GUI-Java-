@@ -7,20 +7,27 @@ class TaskEngine extends GlobalClock  {
     private ArrayList<Task> tasksqueue;
     protected TaskQueue queue;
 
+
     public TaskEngine() {
         super(Instant.now());
         this.tasksqueue = new ArrayList<>();
+        this.queue = new TaskQueue();  // Initialize the TaskQueue
     }
 
 
     public void addTask(Task task) {
         System.out.println("Task Created");
-        task.CreateTask();
+        task.createTask();
+
         tasksqueue.add(task);
-        queue.priorityQueue.add(task.getPriority());
+     //   queue.priorityQueue.add(task.getPriority());
 
     }
-
+public void printTask(){
+        for (int i = 0; i < tasksqueue.size(); i++){
+            System.out.println("Task "+tasksqueue.get(i).getTaskName()+"with Prioroty "+tasksqueue.get(i).getPriority());
+        }
+}
 
     public void dispatchTasks() {
         int time;
@@ -49,7 +56,7 @@ class TaskEngine extends GlobalClock  {
 
     public void prioritizeTasks() {
         System.out.println("Task prioritized based on their priority");
-        queue.comparePriority(tasksqueue);
+        queue.comparePriorityAndTime(tasksqueue);
     }
 
 

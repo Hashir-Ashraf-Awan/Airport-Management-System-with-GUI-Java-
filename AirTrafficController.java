@@ -9,29 +9,26 @@ class AirTrafficController extends GlobalClock {
         super(startTime);
     }
 
-    public void requestPermission() {
+    public void requestPermission(int time) {
+        Instant startTime = Instant.now();
+        GlobalClock g = new GlobalClock(startTime);
 
         start();
 
+
         boolean permissionGranted = false;
 
-        while (true) {
-            Instant currentTime = Instant.now();
-            long secondsElapsed = Duration.between(startTime, currentTime).getSeconds();
+        try {
+            Thread.sleep(time* 1000L); // Sleep for an additional 5 seconds
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        permissionGranted = true;
+        g.interrupt();
+        if (permissionGranted) {
+            System.out.println("Permission granted by Air Traffic Controller");
+            g.shouldDisplay=false;
 
-            if (secondsElapsed >= 5) {
-                permissionGranted = true;
-                break;
-            }
-
-            // Stop the global clock thread
-            interrupt();
-
-            if (permissionGranted) {
-                System.out.println("Permission granted by Air Traffic Controller");
-            } else {
-                System.out.println("Permission denied by Air Traffic Controller");
-            }
         }
     }
 }

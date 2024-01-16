@@ -71,13 +71,13 @@ public class AirportGroundNetwork {
     }
 
     public void airplaneEntersGate(String linkName, int airplaneID) {
-      
+
             gatestates.put(linkName, LinkState.OPEN_OCCUPIED);
             LinkOccupancy.put(linkName, airplaneID);
             System.out.println("Airplane " + airplaneID + " entered " + linkName);
         }
     public void airplaneEntersRunway(String linkName, int airplaneID) {
-     
+
             taxiwaystates.put(linkName, LinkState.OPEN_OCCUPIED);
             LinkOccupancy.put(linkName, airplaneID);
             System.out.println("Airplane " + airplaneID + " entered " + linkName);
@@ -87,10 +87,10 @@ public class AirportGroundNetwork {
             LinkOccupancy.put(linkName, airplaneID);
             System.out.println("Airplane " + airplaneID + " entered " + linkName);
         }
-    
+
 
     public void airplaneExitsGate(String linkName, int airplaneID) {
-       
+
             gatestates.put(linkName, LinkState.OPEN_AVAILABLE);
             LinkOccupancy.remove(linkName);
             System.out.println("Airplane " + airplaneID + " exited " + linkName);
@@ -103,11 +103,11 @@ public class AirportGroundNetwork {
         }
     public void airplaneExitsRunway(String linkName, int airplaneID) {
 
-      
+
             runwayStates.put(linkName, LinkState.OPEN_AVAILABLE);
             LinkOccupancy.remove(linkName);
             System.out.println("Airplane " + airplaneID + " exited " + linkName);
-        
+
     }
 
     public String getRunwayByAirplaneId(int airplaneId) {
