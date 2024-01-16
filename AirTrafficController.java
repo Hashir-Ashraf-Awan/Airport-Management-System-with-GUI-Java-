@@ -19,7 +19,7 @@ class AirTrafficController extends GlobalClock {
         boolean permissionGranted = false;
 
         try {
-            Thread.sleep(time* 1000L); // Sleep for an additional 5 seconds
+            Thread.sleep(time* 1000L);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -27,7 +27,6 @@ class AirTrafficController extends GlobalClock {
         g.interrupt();
         if (permissionGranted) {
             System.out.println("Permission granted by Air Traffic Controller");
-            g.shouldDisplay=false;
 
         }
     }

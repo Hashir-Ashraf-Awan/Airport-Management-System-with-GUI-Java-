@@ -1,52 +1,108 @@
 package task;
 
-import java.time.Instant;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
- class MAINProgram {
-    public static void main(String[] args){
+class AirplaneTaskManagementForm extends JFrame {
 
-        Airplane airplane=new Airplane(1,"Lahore","Karachi", Airplane.AirplaneState.PARKED_AT_GATE);
+    private JTextArea airplaneInfoTextArea;
+    private JButton addTaskButton;
+    private JButton prioritizeTasksButton;
+    private JButton dispatchTasksButton;
+    private TaskEngine taskEngine;
+    private JLabel clockLabel;
+
+    private Timer clockTimer;
+    private int elapsedSeconds;
+
+    public AirplaneTaskManagementForm() {
+
+        airplaneInfoTextArea = new JTextArea();
+        addTaskButton = new JButton("Add Task");
+        prioritizeTasksButton = new JButton("Prioritize Tasks");
+        dispatchTasksButton = new JButton("Dispatch Tasks");
+        taskEngine = new TaskEngine();
+        clockLabel = new JLabel("Time: ");
 
 
-                // Access and print airplane details
-                System.out.println("Airplane ID: " + airplane.getId());
-                System.out.println("Current State: " + airplane.getCurrentState());
+        setLayout(new BorderLayout());
 
-                // Set new ID for the airplane
-                airplane.setId(2);
-                System.out.println("New Airplane ID: " + airplane.getId());
 
-                // Perform airplane actions
-                airplane.ShortestPath();
-                airplane.MovingAirplane(2);
-                airplane.HoldingAirplane(2);
-                airplane.ParkingAirplane(2);
-        Task t1=new Task();
-        Task t2=new Task();
-        TaskEngine engine=new TaskEngine();
-        engine.addTask(t1);
-        engine.addTask(t2);
-        engine.prioritizeTasks();
+        add(airplaneInfoTextArea, BorderLayout.CENTER);
+        add(addTaskButton, BorderLayout.NORTH);
+        add(prioritizeTasksButton, BorderLayout.WEST);
+        add(dispatchTasksButton, BorderLayout.EAST);
+        add(clockLabel, BorderLayout.SOUTH);
 
-        engine.dispatchTasks();
+
+        addTaskButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Task newTask = new Task();
+                taskEngine.addTask(newTask);
+                updateTextArea();
             }
-        }
+        });
+
+        prioritizeTasksButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                taskEngine.prioritizeTasks();
+                updateTextArea();
+            }
+        });
+
+        dispatchTasksButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                taskEngine.dispatchTasks();
+                updateTextArea();
+            }
+        });
 
 
+        setTitle("Airplane Task Management System");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
 
+        elapsedSeconds = 0;
+        clockTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                updateClockLabel();
+            }
+        });
+        clockTimer.start();
+    }
 
+    private void updateTextArea() {
 
+        Airplane a = new Airplane(2, "Lahore", "Karachi", Airplane.AirplaneState.HOLDING);
+        airplaneInfoTextArea.setText(a.toString());
+    }
 
+    private void updateClockLabel() {
 
+        int hours = elapsedSeconds / 3600;
+        int minutes = (elapsedSeconds % 3600) / 60;
+        int seconds = elapsedSeconds % 60;
 
+        String timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        clockLabel.setText("Time: " + timeString);
 
+        elapsedSeconds++;
+    }
 
-
-
-
-
-
-
-
-
-
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new AirplaneTaskManagementForm();
+            }
+        });
+    }
+}

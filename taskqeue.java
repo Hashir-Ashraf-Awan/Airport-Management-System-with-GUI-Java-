@@ -1,28 +1,24 @@
 package task;
 
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 class TaskQueue  {
 
-   protected PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+     protected PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
 
    public void comparePriorityAndTime(ArrayList<Task> tasks) {
       for (int i = 1; i < tasks.size(); i++) {
          if (tasks.get(i).getPriority() > tasks.get(0).getPriority()) {
-            System.out.println(tasks.get(i) + " has higher priority than " + tasks.get(0));
+            System.out.println(tasks.get(i).getTaskName() + " has higher priority than " + tasks.get(0).getTaskName());
             swapTasks(tasks, i, 0);
          } else if (tasks.get(i).getPriority() < tasks.get(0).getPriority()) {
-            System.out.println(tasks.get(0) + " has higher priority than " + tasks.get(i));
+            System.out.println(tasks.get(0).getTaskName() + " has higher priority than " + tasks.get(i).getTaskName());
             swapTasks(tasks, i, 0);
          } else {
-            // Prioritize based on time if priorities are the same
             if (tasks.get(i).getTimeMark() < tasks.get(0).getTimeMark()) {
-               System.out.println(tasks.get(i) + " has higher priority and earlier time than " + tasks.get(0));
+               System.out.println(tasks.get(i).getTaskName() + " has higher priority and earlier time than " + tasks.get(0).getTaskName());
                swapTasks(tasks, i, 0);
             } else if (tasks.get(i).getTimeMark() > tasks.get(0).getTimeMark()) {
-               System.out.println(tasks.get(0) + " has higher priority and earlier time than " + tasks.get(i));
-               // No need to swap if the current task has higher priority but later time
+               System.out.println(tasks.get(0).getTaskName() + " has higher priority and earlier time than " + tasks.get(i).getTaskName());
             } else {
                System.out.println("Both tasks have the same priority and time.");
             }
@@ -31,7 +27,6 @@ class TaskQueue  {
    }
 
    private void swapTasks(ArrayList<Task> tasks, int index1, int index2) {
-      // Swap tasks[index1] and tasks[index2] using a temporary variable
       Task temp = tasks.get(index1);
       tasks.set(index1, tasks.get(index2));
       tasks.set(index2, temp);
