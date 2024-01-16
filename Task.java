@@ -1,6 +1,8 @@
+package task;
+
 import java.util.Scanner;
 
-public class Task {
+class Task {
     private String taskName;
     private int priority;
     private String primaryLabel;
@@ -24,15 +26,15 @@ public class Task {
         return priority;
     }
 
-    public void landingTask(int airplaneID, int runway, int gate) {
+    public void landingTask(int airplaneID, String runway, String gate) {
         // Add logic for landing task
     }
 
-    public void enteringTask(int airplaneID, int currentLink, int nextLink) {
+    public void enteringTask(int airplaneID, String currentLink, String nextLink) {
         // Add logic for entering task
     }
 
-    public void exitingTask(int airplaneID, int currentLink, int nextLink) {
+    public void exitingTask(int airplaneID, String currentLink, String nextLink) {
         // Add logic for exiting task
     }
 
